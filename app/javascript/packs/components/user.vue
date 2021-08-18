@@ -8,8 +8,8 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on:click="on">New Item</v-btn>
+          <template v-slot:activator="{ on: dialog }">
+            <v-btn color="primary" dark class="mb-2" v-on="dialog">New Item</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -20,7 +20,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model:append-icon="editedItem.first_name" label="FORST Name"></v-text-field>
+                    <v-text-field v-model:append-icon="editedItem.first_name" label="First Name"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model:append-icon="editedItem.last_name" label="Last Name"></v-text-field>
@@ -169,7 +169,21 @@ export default {
         .catch(e => {
           console.log(e);
         });
-      } else {}
+      } else {
+        axios.post('http://127.0.0.1:3000/users/', {
+          user: this.editedItem
+        },
+            {headers: {'X-CSRF-TOKEN': this.csrf,}}
+        )
+        .then(response => {
+          console.log(response);
+          console.log("Created the new User."); // TODO: Neither this log statement nor the previous are needed in the end.
+          this.initialize();
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      }
       this.close();
     },
 
