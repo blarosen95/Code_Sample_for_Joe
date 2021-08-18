@@ -1,7 +1,7 @@
 <template>
 <!--  <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">-->
 <!--  <v-data-table :headers="headers" :items="users" sort-by="first_name" class="elevation-1">-->
-  <v-data-table :headers="headers" class="elevation-1">
+  <v-data-table :headers="headers" :items="dessert" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>Users</v-toolbar-title>
@@ -20,7 +20,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model:append-icon="editedItem.first_name" label="First Name"></v-text-field>
+                    <v-text-field v-model:append-icon="editedItem.first_name" label="FORST Name"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model:append-icon="editedItem.last_name" label="Last Name"></v-text-field>
@@ -40,6 +40,7 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
+              <input type="hidden" name="_token" v-bind:value="csrf" />
               <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
               <v-btn color="blue darken-1" text @click="save(editedItem)">Save</v-btn>
             </v-card-actions>
@@ -64,19 +65,16 @@ export default {
   data: () => ({
     dialog: false,
     headers: [
-      {
-        text: "First Name",
-        align: "left",
-        sortable: false,
-        value: "first_name"
-      },
+      { text: "First Name", value: "first_name" },
       { text: "Last Name", value: "last_name" },
       { text: "Email", value: "email" },
       { text: "Phone", value: "phone" },
       { text: "Address", value: "address" },
-      { text: "Actions", value: "action", sortable: false },
+      { text: "Actions", value: "action", sortable: false, align: "center" },
     ],
     dessert: [],
+    // Assign the csrf token so that Axios stops using some cached/constant value instead.
+    csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
     editedIndex: -1,
     editedItem: {
       first_name: "",
@@ -106,17 +104,73 @@ export default {
   created() {
     this.initialize();
   },
+
   methods: {
     initialize() {
       return axios
-          .get("http://localhost:3000/users")
+      .get("http://localhost:3000/users")
+      .then(response => {
+        this.dessert = response.data
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    },
+
+    getUser(item) {
+      axios.get(`http://localhost:3000/${item.id}`)
           .then(response => {
-            console.log(response.data); // TODO: Debug statement (don't leave in when converting to template)
-            this.desserts = response.data
+            this.dessert = response.data;
           })
-          .catch(e => {
-            console.log(e); // TODO: Decide on whether this is best practice to leave in, as it is not *just* a debug statement
-          });
+          .catch(error => {
+            console.log(error);
+          })
+    },
+
+    editItem(item) {
+      this.editedIndex = item.id;
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+
+    deleteItem(item) {
+      // TODO: Write the method here...
+      // FIXME: Might want some validation conditionals here...
+      axios
+      .delete(`http://127.0.0.1:3000/users/${item.id}`, {
+      headers: {'X-CSRF-TOKEN': this.csrf,}
+      })
+      .then(response => {
+        console.log(response);
+        this.initialize();
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    },
+
+    save(item) {
+      if (this.editedIndex > -1) {
+        axios // The URL in use in the below call to put differs for an obvious CORS reason, normal prod app would see all URLS using the real application's URL
+        .put(`http://127.0.0.1:3000/users/${item.id}`, {
+          id: this.editedItem.id,
+          first_name: this.editedItem.first_name,
+          last_name: this.editedItem.last_name,
+          email: this.editedItem.email,
+          phone: this.editedItem.phone,
+          address: this.editedItem.address
+        },
+            {headers: {'X-CSRF-TOKEN': this.csrf,}}
+        )
+        .then(response => {
+          console.log(response);
+          this.initialize();
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      } else {}
+      this.close();
     },
 
     close() {

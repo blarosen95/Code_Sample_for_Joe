@@ -3,6 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.2'
 
+# Faker gem for optimal template-ness
+gem 'faker'
+
 # Never needed this before, I understand the concepts of what it does. # TODO: Do try removing this gem and its usage
 # (TODO Continued) in application.rb once Axios is being used correctly. If still needed, then properly specify a version.
 gem 'rack-cors'

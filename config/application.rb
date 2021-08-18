@@ -25,7 +25,7 @@ module RailsVuejs
         # origins 'http://localhost:3000'
         origins 'localhost:3000', '127.0.0.1:3000'
         # resource '*', :headers => :any, :methods => [:get, :post, options]
-        resource '*', :headers => :any, :methods => [:get, :post]
+        resource '*', :headers => :any, :methods => [:get, :post, :put]
       end
     end
   end
