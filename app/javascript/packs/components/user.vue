@@ -1,7 +1,5 @@
 <template>
-<!--  <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">-->
-<!--  <v-data-table :headers="headers" :items="users" sort-by="first_name" class="elevation-1">-->
-  <v-data-table :headers="headers" :items="dessert" class="elevation-1">
+  <v-data-table :items-per-page="5" :headers="headers" :items="dessert" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>Users</v-toolbar-title>

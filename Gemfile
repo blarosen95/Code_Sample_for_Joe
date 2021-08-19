@@ -6,6 +6,9 @@ ruby '3.0.2'
 # Faker gem for optimal template-ness
 gem 'faker'
 
+# oj gem because it should actually make a massive difference on this weak laptop's CPU time.
+gem 'oj'
+
 # Never needed this before, I understand the concepts of what it does. # TODO: Do try removing this gem and its usage
 # (TODO Continued) in application.rb once Axios is being used correctly. If still needed, then properly specify a version.
 gem 'rack-cors'
