@@ -132,8 +132,7 @@ export default {
     },
 
     deleteItem(item) {
-      // TODO: Write the method here...
-      // FIXME: Might want some validation conditionals here...
+      // FIXME: Might want some validation conditionals here but will leave out as they can be done in non-template uses
       axios
       .delete(`http://127.0.0.1:3000/users/${item.id}`, {
       headers: {'X-CSRF-TOKEN': this.csrf,}

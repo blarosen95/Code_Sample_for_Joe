@@ -18,9 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     render: h => h(App)
   }).$mount()
   document.body.appendChild(app.$el)
-
-  console.log(app) // TODO: Just like the console.log(response.data) in user.vue, I believe this to be a
-  // TODO (continued): debug statement. Likely want to remove it when converting to template.
 })
 
 

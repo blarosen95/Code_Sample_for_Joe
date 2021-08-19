@@ -19,12 +19,9 @@ module RailsVuejs
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.middleware.insert_before 0, Rack::Cors do # TODO: This CORS fix could be better...
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
-        # origins '*' # TODO: Yeah... this isn't ideal :(
-        # origins 'http://localhost:3000'
         origins 'localhost:3000', '127.0.0.1:3000'
-        # resource '*', :headers => :any, :methods => [:get, :post, options]
         resource '*', :headers => :any, :methods => [:get, :post, :put]
       end
     end
