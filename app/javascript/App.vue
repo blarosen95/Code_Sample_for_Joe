@@ -2,7 +2,7 @@
   <div id="app">
     <v-app>
       <p>{{ message }}</p> <!-- TODO: Wouldn't really want this in a production app, but in a template it does showcase putting returned variables into Vue template tags (the line below already showcases including a Vue component -->
-      <Patient/>
+      <Patients/>
 <!--      <Charted/>-->
     </v-app>
     <v-app>
@@ -13,7 +13,7 @@
 
 <script>
 // import user from "./packs/components/user.vue"; // TODO: Out with the old
-import Patient from "./packs/components/Patient.vue";
+import Patients from "./packs/components/Patients.vue";
 import Charted from "./packs/components/Charted";
 
 export default {
@@ -25,7 +25,7 @@ export default {
   components: {
     Charted,
     // user: user // TODO: Out with the old.
-    Patient: Patient
+    Patients: Patients
   }
 };
 </script>

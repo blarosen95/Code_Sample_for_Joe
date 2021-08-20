@@ -50,8 +50,8 @@
 
     <template v-slot:item.action="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
+      <v-icon small @click="viewPatient(item)">view</v-icon>
       <v-icon small @click="deleteItem(item)">delete</v-icon>
-      <v-icon small @click="viewRecordDetails(item)">view details</v-icon>
     </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize">Reset</v-btn>
