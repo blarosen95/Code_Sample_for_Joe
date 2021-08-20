@@ -45,6 +45,7 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
+      <ConfirmationDialog ref="confirm" />
     </template>
 
     <template v-slot:item.action="{ item }">
@@ -60,7 +61,9 @@
 
 <script>
 import axios from "axios";
+import ConfirmationDialog from "./ConfirmationDialog";
 export default {
+  components: {ConfirmationDialog},
   data: () => ({
     dialog: false,
     headers: [
@@ -132,21 +135,25 @@ export default {
       this.dialog = true;
     },
 
-    deleteItem(item) {
+    async deleteItem(item) {
       // FIXME: Might want some validation conditionals here but will leave out as they can be done in non-template uses
       // TODO: For now, having at least a confirmation dialog will help
-
-      axios
-      .delete(`http://127.0.0.1:3000/patients/${item.id}`, {
-      headers: {'X-CSRF-TOKEN': this.csrf,}
-      })
-      .then(response => {
-        console.log(response);
-        this.initialize();
-      })
-      .catch(e => {
-        console.log(e);
-      });
+      if (
+          await this.$refs.confirm.open("Confirm Deletion",
+              "As long as it's been 6 years, I suppose you can just delete a patient...")
+      ) {
+        axios
+            .delete(`http://127.0.0.1:3000/patients/${item.id}`, {
+              headers: {'X-CSRF-TOKEN': this.csrf,}
+            })
+            .then(response => {
+              console.log(response);
+              this.initialize();
+            })
+            .catch(e => {
+              console.log(e);
+            });
+      }
     },
 
     save(item) {
