@@ -8,9 +8,10 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-import App from '../app.vue'
+import App from '../App.vue'
 
 Vue.use(Vuetify)
+Vue.use(require('vue-chartist'))
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({

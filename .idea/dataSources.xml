@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="development" uuid="caf3a019-d972-488f-8741-f8e3c48ba2d3">
+    <data-source source="LOCAL" name="development [2]" uuid="c010c314-b924-4644-872f-14fbef06c0f7">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Lenovo Yoga 700\RubymineProjects\VueIntro\rails_vuejs\db\development.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\Lenovo Yoga 700\RubymineProjects\UsersWithChartistVue\db\development.sqlite3</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

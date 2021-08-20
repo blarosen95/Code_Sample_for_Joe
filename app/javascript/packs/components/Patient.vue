@@ -2,7 +2,7 @@
   <v-data-table :items-per-page="5" :headers="headers" :items="dessert" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>Users</v-toolbar-title>
+        <v-toolbar-title>Patients</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
@@ -50,6 +50,7 @@
     <template v-slot:item.action="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
       <v-icon small @click="deleteItem(item)">delete</v-icon>
+      <v-icon small @click="viewRecordDetails(item)">view details</v-icon>
     </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -106,7 +107,7 @@ export default {
   methods: {
     initialize() {
       return axios
-      .get("http://localhost:3000/users")
+      .get("http://localhost:3000/patients")
       .then(response => {
         this.dessert = response.data
       })
@@ -114,8 +115,8 @@ export default {
         console.log(e);
       });
     },
-
-    getUser(item) {
+    // Deprecated: TODO, get this outta here.
+    getPatient(item) {
       axios.get(`http://localhost:3000/${item.id}`)
           .then(response => {
             this.dessert = response.data;
@@ -133,8 +134,10 @@ export default {
 
     deleteItem(item) {
       // FIXME: Might want some validation conditionals here but will leave out as they can be done in non-template uses
+      // TODO: For now, having at least a confirmation dialog will help
+
       axios
-      .delete(`http://127.0.0.1:3000/users/${item.id}`, {
+      .delete(`http://127.0.0.1:3000/patients/${item.id}`, {
       headers: {'X-CSRF-TOKEN': this.csrf,}
       })
       .then(response => {
@@ -149,7 +152,7 @@ export default {
     save(item) {
       if (this.editedIndex > -1) {
         axios // The URL in use in the below call to put differs for an obvious CORS reason, normal prod app would see all URLS using the real application's URL
-        .put(`http://127.0.0.1:3000/users/${item.id}`, {
+        .put(`http://127.0.0.1:3000/patients/${item.id}`, {
           id: this.editedItem.id,
           first_name: this.editedItem.first_name,
           last_name: this.editedItem.last_name,
@@ -167,14 +170,14 @@ export default {
           console.log(e);
         });
       } else {
-        axios.post('http://127.0.0.1:3000/users/', {
-          user: this.editedItem
+        axios.post('http://127.0.0.1:3000/patients/', {
+          patient: this.editedItem
         },
             {headers: {'X-CSRF-TOKEN': this.csrf,}}
         )
         .then(response => {
           console.log(response);
-          console.log("Created the new User."); // TODO: Neither this log statement nor the previous are needed in the end.
+          console.log("Created the new Patient."); // TODO: Neither this log statement nor the previous are needed in the end.
           this.initialize();
         })
         .catch(e => {
