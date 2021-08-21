@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 	root to: 'welcome#index'
-	resources :patients
+	resources :landlords
 	# get 'app', to: 'users#index'
-	get 'app', to: 'patients#index'
+	get 'app', to: 'landlords#index'
 end

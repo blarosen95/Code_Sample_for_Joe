@@ -36,6 +36,7 @@ export default {
   },
 
   methods: {
+    // TODO: This should really be refactored to "show(...)", we show the dialog more so than open it
     open(diagTitle, message, options) {
       this.dialog = true;
       this.diagTitle = diagTitle;
