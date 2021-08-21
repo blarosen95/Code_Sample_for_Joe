@@ -19,20 +19,20 @@ export default {
       mainModality: false,
       landlord_name: "",
       landlord: [],
-      // headers: [
-      //   { text: "Property Number", value: "id" },
-      //   { text: "Property Name (if applicable)", value: "property_name" },
-      //   { text: "Property Address", value: "property_address" },
-      //   { text: "Tenants Potential", value: "tenants_max" },
-      //   { text: "Tenants Actualized", value: "tenants_present" },
-      //   { text: "Is Listed", value: "listed" }, // This has some interesting potential as a feature; see next lines.
-      //     // My thoughts here are that a room/property should be delisted once the potential tenancy is actualized.
-      //     // At the same time, a landlord would obviously be happier if they did not have to relist when vacancies occur.
-      //     // I'm sure that the current state of SplitSpot at least incorporates a similar mechanic already but there's
-      //     // a lot of scalability here. I don't like asides in comments and this is already TL;DR; see the end for more.
-      //   { text: "Pets Allowed", value: "restriction_pets" },
-      //   { text: "Couples Allowed", value: "restriction_couples" },
-      // ],
+      headers: [
+        { text: "Property Number", value: "id" },
+        { text: "Property Name (if applicable)", value: "property_name" },
+        { text: "Property Address", value: "property_address" },
+        { text: "Tenants Potential", value: "tenants_max" },
+        { text: "Tenants Actualized", value: "tenants_present" },
+        { text: "Is Listed", value: "listed" }, // This has some interesting potential as a feature; see next lines.
+          // My thoughts here are that a room/property should be delisted once the potential tenancy is actualized.
+          // At the same time, a landlord would obviously be happier if they did not have to relist when vacancies occur.
+          // I'm sure that the current state of SplitSpot at least incorporates a similar mechanic already but there's
+          // a lot of scalability here. I don't like asides in comments and this is already TL;DR; see the end for more.
+        { text: "Pets Allowed", value: "restriction_pets" },
+        { text: "Couples Allowed", value: "restriction_couples" }
+      ],
 
     };
   },
