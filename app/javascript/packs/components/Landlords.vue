@@ -67,6 +67,7 @@
 import axios from "axios";
 import ConfirmationDialog from "./ConfirmationDialog";
 import Landlord from "./Landlord";
+import {eventBus} from "../main";
 
 export default {
   components: {Landlord, ConfirmationDialog},
@@ -143,16 +144,21 @@ export default {
       this.dialog = true;
     },
 
-    // TODO: Deliberate on asynchronous value here
+    // // TODO: Deliberate on asynchronous value here
+    // viewLandlord(item) {
+    //   this.mainModality = false;
+    //   axios.get(`http://127.0.0.1:3000/landlords/${item.id}`, {
+    //     headers: {"X-CSRF-TOKEN": this.csrf,}
+    //   })
+    //       .then(response => {
+    //         // await this.$refs.viewLandlord.open("")
+    //         this.$refs.landlord.open(response);
+    //       })
+    // },
+
     viewLandlord(item) {
       this.mainModality = false;
-      axios.get(`http://127.0.0.1:3000/landlords/${item.id}`, {
-        headers: {"X-CSRF-TOKEN": this.csrf,}
-      })
-          .then(response => {
-            // await this.$refs.viewLandlord.open("")
-            this.$refs.landlord.open(response);
-          })
+      eventBus.$emit('landlordSerial', [item.first_name, item.id]);
     },
 
     async deleteItem(item) {
@@ -221,6 +227,7 @@ export default {
         this.editedIndex = -1;
       }, 300);
     }
+
   }
 };
 </script>

@@ -1,20 +1,23 @@
 <template>
-  <v-data-table v-if="dataTable" :items-per-page="5" :items="landlord" class="elevation-1">
+  <v-data-table v-if="mainModality" :items-per-page="5" :items="landlord" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
-<!--        <v-toolbar-title>{{ landlord[1] }}</v-toolbar-title>--> <!-- TODO: Bring back in later -->
-        <v-toolbar-title>Landlord's Name would be here</v-toolbar-title>
+        <v-toolbar-title>{{ landlord_name }}</v-toolbar-title>
       </v-toolbar>
     </template>
   </v-data-table>
 </template>
 
 <script>
+import {eventBus} from "../main";
+import axios from "axios";
+
 export default {
   name: "Landlord",
   data() {
     return {
-      dataTable: false,
+      mainModality: false,
+      landlord_name: "",
       landlord: [],
       // headers: [
       //   { text: "Property Number", value: "id" },
@@ -34,11 +37,24 @@ export default {
     };
   },
 
+  created() {
+    var callout = this;
+    eventBus.$on(`landlordSerial`, function (value) {
+      callout.mainModality = true;
+      callout.landlord_name = value[0];
+      // TODO: Finish implementing as started below (Actually, do this in init)
+      // axios.get(`http://127.0.0.1:3000/rooms/${value[1]}`)
+      callout.initialize(value[1]);
+    })
+  },
+
   methods: {
+    initialize(id) {
+      return axios.get(`http://127.0.0.1:3000/rooms/${id}`)
+    },
+
     open(landlordSerial) {
-      this.dataTable = true;
-      // this.landlord = landlordSerial;
-      console.log(this.landlord);
+      this.mainModality = true;
     },
 
   },
