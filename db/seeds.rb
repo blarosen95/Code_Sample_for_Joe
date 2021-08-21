@@ -13,13 +13,22 @@ require 'date'
 
 # NOTE: there's likely a slight delay between datetime.now returns for created_at and updated_at in the creations below
 # ... One might find that setting the initial value be done either here or in the controller ala the created_at value.
-(1..25).each do |_iter|
-  Patient.create(
+(1..25).each do |iter_landlord|
+  Landlord.create(
     first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email,
     phone: Faker::PhoneNumber.phone_number.gsub(/\D/, '')[0..9],
     address: Faker::Address.street_address, created_at: DateTime.now, updated_at: :created_at # Is this illegal?
   )
+  (1..rand(1..7)).each do |_iter_room|
+    rand(1..5).tap do |tenants_max|
+      Room.create(
+        landlord_id: iter_landlord, property_name: [Faker::Adjective.positive, Faker::House.room].join(' ').titleize,
+        tenants_max: tenants_max, tenants_present: Faker::Number.between(from: 0, to: tenants_max),
+        listed: Faker::Boolean.boolean(true_ratio: 0.88),
+        restriction_pets: Faker::Boolean.boolean(true_ratio: 0.73),
+        restriction_couples: Faker::Boolean.boolean(true_ratio: 0.64),
+        property_address: Faker::Address.street_address
+      )
+    end
+  end
 end
-Patient.create(
-  first_name: 'John', last_name: 'Doe', email: 'JDoe@AnActualBakery.biz', phone: 7_274_095_959, address: '1 Drury LN'
-) # Thanks for that guidance, rubocop. Obviously I went in knowing that phone as an integer was useless all around but it does at least showcase more than strings

@@ -158,7 +158,8 @@ export default {
 
     viewLandlord(item) {
       this.mainModality = false;
-      eventBus.$emit('landlordSerial', [item.first_name, item.id]);
+      eventBus.$emit('landlordSerial', [item.first_name +" "+ item.last_name, item.id]);
+      eventBus.$emit('appEvent', [item.first_name +" "+ item.last_name, item.id]);
     },
 
     async deleteItem(item) {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_21_170305) do
+ActiveRecord::Schema.define(version: 2021_08_21_173008) do
 
   create_table "landlords", force: :cascade do |t|
     t.string "first_name"
@@ -32,6 +32,9 @@ ActiveRecord::Schema.define(version: 2021_08_21_170305) do
     t.boolean "restriction_couples"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "landlord_id", null: false
+    t.index ["landlord_id"], name: "index_rooms_on_landlord_id"
   end
 
+  add_foreign_key "rooms", "landlords"
 end

@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+#=begin
+# NOTE: While it's annoying to see this inspection nag in RubyMine right now, I would lean more toward extracting into
+# a helper to improve controller-creation workflows
+#=end
+
+#noinspection DuplicatedCode
 class RoomsController < ApplicationController
   def index
     @rooms = Room.all
@@ -38,10 +44,15 @@ class RoomsController < ApplicationController
     end
   end
 
+  def index_by_landlord
+    @rooms = Room.where(landlord_id: params[:id])
+    render json: @rooms
+  end
+
   private
 
   def room_params
-    params.require(:room).permit(:id, :property_name, :property_address, :tenants_max, :tenants_present, :listed,
+    params.require(:room).permit(:landlord_id, :id, :property_name, :property_address, :tenants_max, :tenants_present, :listed,
                                  :restriction_pets, :restriction_couples)
   end
 end

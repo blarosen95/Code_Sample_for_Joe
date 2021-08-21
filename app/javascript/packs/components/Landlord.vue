@@ -1,5 +1,5 @@
 <template>
-  <v-data-table v-if="mainModality" :items-per-page="5" :items="landlord" class="elevation-1">
+  <v-data-table v-if="mainModality" :items-per-page="5" :headers="headers" :items="rooms" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>{{ landlord_name }}</v-toolbar-title>
@@ -18,7 +18,7 @@ export default {
     return {
       mainModality: false,
       landlord_name: "",
-      landlord: [],
+      rooms: [],
       headers: [
         { text: "Property Number", value: "id" },
         { text: "Property Name (if applicable)", value: "property_name" },
@@ -43,14 +43,21 @@ export default {
       callout.mainModality = true;
       callout.landlord_name = value[0];
       // TODO: Finish implementing as started below (Actually, do this in init)
-      // axios.get(`http://127.0.0.1:3000/rooms/${value[1]}`)
+      axios.get(`http://127.0.0.1:3000/rooms/${value[1]}/index_by_landlord`)
+      .then(response => {
+        callout.rooms = response.data
+        console.log(response.data)
+      })
+      .catch(e => {
+        console.log(e);
+      });
       callout.initialize(value[1]);
     })
   },
 
   methods: {
     initialize(id) {
-      return axios.get(`http://127.0.0.1:3000/rooms/${id}`)
+      return axios.get(`http://127.0.0.1:3000/rooms/${id}/index_by_landlord`)
     },
 
     open(landlordSerial) {
