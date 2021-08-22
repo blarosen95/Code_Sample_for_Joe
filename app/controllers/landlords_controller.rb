@@ -4,7 +4,8 @@ class LandlordsController < ApplicationController
   require 'oj' #  TODO: Really squeeze out the potential here, not focusing too heavily on worst-case execution times
   # (TODO continued) as this is running on just an i5-6200U. Would like to see non-compilation times <= maybe 600ms
   # (TODO continued) such times would translate to a modest i7 (non-mobile) processor achieving 8 to 20 ms.
-  # If you're reading these comments, don't judge too harshly. My home-lab is down until I finish moving.
+  # If you're reading these comments, don't judge too harshly. My home-lab is down until I finish moving, and I'm stuck
+  # on an awful laptop.
 
   def index
     @landlords = Landlord.all do |landlord|

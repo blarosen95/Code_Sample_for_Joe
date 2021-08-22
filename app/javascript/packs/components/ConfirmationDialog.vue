@@ -5,10 +5,8 @@
         <span class="headline">{{ diagTitle }}</span>
       </v-card-title>
       <v-card-text class="pa-4" v-show="!!message" v-html="message"></v-card-text>
-<!--      <v-card-text class="pa-4" v-show="!!message" v-html="message" />-->
       <v-card-actions class="pt-3">
         <v-spacer></v-spacer>
-<!--        <v-spacer />-->
         <v-btn class="body-2 font-weight-bold" text color="grey" v-if="!options.noconfirm"
                @click.native="cancel">Cancel</v-btn>
         <v-btn class="body-2 font-weight-bold" outlined color="primary" @click.native="accept">Okay</v-btn>
@@ -36,7 +34,6 @@ export default {
   },
 
   methods: {
-    // TODO: This should really be refactored to "show(...)", we show the dialog more so than open it
     open(diagTitle, message, options) {
       this.dialog = true;
       this.diagTitle = diagTitle;

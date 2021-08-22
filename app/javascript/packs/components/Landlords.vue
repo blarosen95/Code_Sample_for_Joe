@@ -1,5 +1,5 @@
 <template>
-  <v-data-table v-if="mainModality" :items-per-page="5" :headers="headers" :items="landlords" class="elevation-1">
+  <v-data-table v-if="showingLandlords" :items-per-page="5" :headers="headers" :items="landlords" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>Landlords</v-toolbar-title>
@@ -14,7 +14,7 @@
               <span class="headline">{{ formTitle }}</span>
             </v-card-title>
 
-            <v-card-text>
+            <v-card-text v-if="showingLandlords">
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
@@ -46,7 +46,7 @@
         </v-dialog>
       </v-toolbar>
       <ConfirmationDialog ref="confirm"/>
-<!--      <Landlord ref="landlord"/>-->
+      <Landlord ref="landlord"/>
     </template>
 
     <template v-slot:item.action="{ item }">
@@ -73,7 +73,8 @@ export default {
   components: {Landlord, ConfirmationDialog},
   data: () => ({
     dialog: false,
-    mainModality: true,
+    showingLandlords: true,
+    showingLandlord: true,
     headers: [
       {text: "First Name", value: "first_name"},
       {text: "Last Name", value: "last_name"},
@@ -82,8 +83,17 @@ export default {
       {text: "Address", value: "address"},
       {text: "Actions", value: "action", sortable: false, align: "center"},
     ],
+    roomHeaders: [
+      { text: "Property Number", value: "id" },
+      { text: "Property Name (if applicable)", value: "property_name" },
+      { text: "Property Address", value: "property_address" },
+      { text: "Tenants Potential", value: "tenants_max" },
+      { text: "Tenants Actualized", value: "tenants_present" },
+      { text: "Is Listed", value: "listed" },
+      { text: "Pets Allowed", value: "restriction_pets" },
+      { text: "Couples Allowed", value: "restriction_couples" }
+    ],
     landlords: [],
-    // Assign the csrf token so that Axios stops using some cached/constant value instead.
     csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
     editedIndex: -1,
     editedItem: {
@@ -93,13 +103,6 @@ export default {
       phone: "",
       address: ""
     },
-    defaultItem: { // TODO: Removal Before Submission TODO TODO TODO
-      name: "",
-      calories: "",
-      fat: "",
-      carbs: "",
-      protein: ""
-    }
   }),
   computed: {
     formTitle() {
@@ -118,7 +121,6 @@ export default {
   methods: {
     initialize() {
       return axios
-          // .get("http://localhost:3000/landlords") ##
           .get("http://127.0.0.1:3000/landlords")
           .then(response => {
             this.landlords = response.data
@@ -127,16 +129,6 @@ export default {
             console.log(e);
           });
     },
-    // Deprecated: TODO, get this outta here.
-    getLandlord(item) {
-      axios.get(`http://localhost:3000/${item.id}`)
-          .then(response => {
-            this.landlords = response.data;
-          })
-          .catch(error => {
-            console.log(error);
-          })
-    },
 
     editItem(item) {
       this.editedIndex = item.id;
@@ -144,23 +136,13 @@ export default {
       this.dialog = true;
     },
 
-    // // TODO: Deliberate on asynchronous value here
-    // viewLandlord(item) {
-    //   this.mainModality = false;
-    //   axios.get(`http://127.0.0.1:3000/landlords/${item.id}`, {
-    //     headers: {"X-CSRF-TOKEN": this.csrf,}
-    //   })
-    //       .then(response => {
-    //         // await this.$refs.viewLandlord.open("")
-    //         this.$refs.landlord.open(response);
-    //       })
-    // },
-
     viewLandlord(item) {
-      this.mainModality = false;
-      eventBus.$emit('appEvent', [item.first_name +" "+ item.last_name, item.id]);
-      console.log("emission complete");
-      eventBus.$emit('landlordSerial', [item.first_name +" "+ item.last_name, item.id]);
+      // this.showingLandlords = false;
+      // this.showingLandlord = true;
+      // eventBus.$emit('appEvent', [item.first_name +" "+ item.last_name, item.id]);
+      // console.log("emission complete");
+      // eventBus.$emit('landlordSerial', [item.first_name +" "+ item.last_name, item.id]);
+      this.$refs.landlord.open([item.first_name+" "+item.last_name, item.id])
     },
 
     async deleteItem(item) {
@@ -209,8 +191,6 @@ export default {
             {headers: {'X-CSRF-TOKEN': this.csrf,}}
         )
             .then(response => {
-              console.log(response);
-              console.log("Created the new landlord."); // TODO: Neither this log statement nor the previous are needed in the end.
               this.initialize();
             })
             .catch(e => {
