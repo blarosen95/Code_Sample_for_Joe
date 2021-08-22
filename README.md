@@ -21,10 +21,10 @@ Things you may want to cover:
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
-*   rails db:seed
+*   rails db:seed db:migrate
 *   bundle install
-*   yarn add
-*   run rails in typical development run configuration. Pretty much the normal approach to something simple like this
+*   yarn install
+*   run rails in typical development run configuration (rails s). Pretty much the normal approach to something simple like this
 *   Be sure to access from 127.0.0.1 loopback, using localhost will cause CSRF failures on some actions.
 
 * ...
