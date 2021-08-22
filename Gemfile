@@ -3,6 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.2'
 
+# Active Admin gem as it is one of the preferred qualifications and I will need to know it if hired.
+gem 'activeadmin'
+
 # Faker gem for optimal template-ness
 gem 'faker'
 
