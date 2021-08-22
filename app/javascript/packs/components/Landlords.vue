@@ -155,7 +155,6 @@ export default {
               headers: {'X-CSRF-TOKEN': this.csrf,}
             })
             .then(response => {
-              console.log(response);
               this.initialize();
             })
             .catch(e => {
@@ -178,7 +177,6 @@ export default {
                 {headers: {'X-CSRF-TOKEN': this.csrf,}}
             )
             .then(response => {
-              console.log(response);
               this.initialize();
             })
             .catch(e => {

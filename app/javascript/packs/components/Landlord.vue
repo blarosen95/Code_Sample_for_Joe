@@ -39,13 +39,11 @@ export default {
   created() {
     var callout = this;
     eventBus.$on(`landlordSerial`, function (value) {
-      console.log("Landlord.vue eventBus is on!");
       callout.mainModality = true;
       callout.landlord_name = value[0];
       axios.get(`http://127.0.0.1:3000/rooms/${value[1]}/index_by_landlord`)
           .then(response => {
             callout.rooms = response.data
-            console.log(response.data)
           })
           .catch(e => {
             console.log(e);
