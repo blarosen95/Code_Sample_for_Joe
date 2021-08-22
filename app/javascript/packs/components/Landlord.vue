@@ -29,8 +29,8 @@ export default {
         {text: "Tenants Potential", value: "tenants_max"},
         {text: "Tenants Actualized", value: "tenants_present"},
         {text: "Is Listed", value: "listed"},
-        {text: "Pets Allowed", value: "restriction_pets"},
-        {text: "Couples Allowed", value: "restriction_couples"}
+        {text: "Pets Restricted", value: "restriction_pets"}, // TODO: It's not worth another migration
+        {text: "Couples Restricted", value: "restriction_couples"} // TODO: As this is just a code sample
       ],
 
     };
