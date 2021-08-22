@@ -21,7 +21,7 @@ Things you may want to cover:
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
-*   rails db:seed db:migrate
+*   seed and migrate database
 *   bundle install
 *   yarn install
 *   run rails in typical development run configuration (rails s). Pretty much the normal approach to something simple like this
