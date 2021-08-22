@@ -158,13 +158,12 @@ export default {
 
     viewLandlord(item) {
       this.mainModality = false;
-      eventBus.$emit('landlordSerial', [item.first_name +" "+ item.last_name, item.id]);
       eventBus.$emit('appEvent', [item.first_name +" "+ item.last_name, item.id]);
+      console.log("emission complete");
+      eventBus.$emit('landlordSerial', [item.first_name +" "+ item.last_name, item.id]);
     },
 
     async deleteItem(item) {
-      // FIXME: Might want some validation conditionals here but will leave out as they can be done in non-template uses
-      // TODO: For now, having at least a confirmation dialog will help
       if (
           await this.$refs.confirm.open("Confirm Deletion",
               "Are you absolutely sure that you want to remove this landlord from our system?")

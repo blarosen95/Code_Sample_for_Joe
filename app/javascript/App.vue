@@ -36,9 +36,14 @@ export default {
   created() {
     var callout = this;
     eventBus.$on('appEvent', function (value) {
+      console.log("appEvent EventBus fired.");
       callout.landlordsConditional = false;
       callout.roomsConditional = true;
     })
+  },
+
+  updated() {
+    eventBus.$off('appEvent');
   }
 };
 </script>

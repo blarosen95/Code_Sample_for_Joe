@@ -40,6 +40,7 @@ export default {
   created() {
     var callout = this;
     eventBus.$on(`landlordSerial`, function (value) {
+      console.log("Landlord.vue eventBus is on!");
       callout.mainModality = true;
       callout.landlord_name = value[0];
       // TODO: Finish implementing as started below (Actually, do this in init)
