@@ -1,65 +1,67 @@
 <template>
-  <v-data-table v-if="showingLandlords" :items-per-page="5" :headers="headers" :items="landlords" class="elevation-1">
-    <template v-slot:top>
-      <v-toolbar flat color="white">
-        <v-toolbar-title>Landlords</v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on: dialog }">
-            <v-btn color="primary" dark class="mb-2" v-on="dialog">New Item</v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
+  <v-content>
+    <v-data-table v-if="showingLandlords" :items-per-page="5" :headers="headers" :items="landlords" class="elevation-1"
+                  dark app>
+      <template v-slot:top>
+        <v-toolbar flat color="white">
+          <v-toolbar-title>Landlords</v-toolbar-title>
+          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-spacer></v-spacer>
+          <v-dialog v-model="dialog" max-width="500px">
+            <template v-slot:activator="{ on: dialog }">
+              <v-btn color="primary" dark class="mb-2" v-on="dialog">New Item</v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">{{ formTitle }}</span>
+              </v-card-title>
 
-            <v-card-text v-if="showingLandlords">
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model:append-icon="editedItem.first_name" label="First Name"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model:append-icon="editedItem.last_name" label="Last Name"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model:append-icon="editedItem.email" label="Email"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model:append-icon="editedItem.phone" label="Phone"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model:append-icon="editedItem.address" label="Address"></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
+              <v-card-text v-if="showingLandlords">
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model:append-icon="editedItem.first_name" label="First Name"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model:append-icon="editedItem.last_name" label="Last Name"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model:append-icon="editedItem.email" label="Email"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model:append-icon="editedItem.phone" label="Phone"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model:append-icon="editedItem.address" label="Address"></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <input type="hidden" name="_token" v-bind:value="csrf"/>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save(editedItem)">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-      <ConfirmationDialog ref="confirm"/>
-      <Landlord ref="landlord"/>
-    </template>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <input type="hidden" name="_token" v-bind:value="csrf"/>
+                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="save(editedItem)">Save</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+        <ConfirmationDialog ref="confirm"/>
+        <Landlord ref="landlord"/>
+      </template>
 
-    <template v-slot:item.action="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
-      <v-icon small @click="viewLandlord(item)">view</v-icon>
-      <v-icon small @click="deleteItem(item)">delete</v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
-    </template>
+      <template v-slot:item.action="{ item }">
+        <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
+        <v-icon small @click="viewLandlord(item)">view</v-icon>
+        <v-icon small @click="deleteItem(item)">delete</v-icon>
+      </template>
+      <template v-slot:no-data>
+        <v-btn color="primary" @click="initialize">Reset</v-btn>
+      </template>
 
-  </v-data-table>
-
+    </v-data-table>
+  </v-content>
 </template>
 
 
@@ -84,14 +86,14 @@ export default {
       {text: "Actions", value: "action", sortable: false, align: "center"},
     ],
     roomHeaders: [
-      { text: "Property Number", value: "id" },
-      { text: "Property Name (if applicable)", value: "property_name" },
-      { text: "Property Address", value: "property_address" },
-      { text: "Tenants Potential", value: "tenants_max" },
-      { text: "Tenants Actualized", value: "tenants_present" },
-      { text: "Is Listed", value: "listed" },
-      { text: "Pets Allowed", value: "restriction_pets" },
-      { text: "Couples Allowed", value: "restriction_couples" }
+      {text: "Property Number", value: "id"},
+      {text: "Property Name (if applicable)", value: "property_name"},
+      {text: "Property Address", value: "property_address"},
+      {text: "Tenants Potential", value: "tenants_max"},
+      {text: "Tenants Actualized", value: "tenants_present"},
+      {text: "Is Listed", value: "listed"},
+      {text: "Pets Allowed", value: "restriction_pets"},
+      {text: "Couples Allowed", value: "restriction_couples"}
     ],
     landlords: [],
     csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -142,7 +144,7 @@ export default {
       // eventBus.$emit('appEvent', [item.first_name +" "+ item.last_name, item.id]);
       // console.log("emission complete");
       // eventBus.$emit('landlordSerial', [item.first_name +" "+ item.last_name, item.id]);
-      this.$refs.landlord.open([item.first_name+" "+item.last_name, item.id])
+      this.$refs.landlord.open([item.first_name + " " + item.last_name, item.id])
     },
 
     async deleteItem(item) {
